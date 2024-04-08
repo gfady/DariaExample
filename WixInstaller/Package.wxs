@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Define the variables in "$(var.*) expressions" -->
+<?define Name = "Software agent service" ?>
+<?define Manufacturer = "CustomerName-software" ?>
+<?define Version = "1.1.0.0" ?>
+<?define UpgradeCode = "9ED3FF33-8718-444E-B44B-69A2344B7E98" ?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  
+  <Package Name="$(Name)"
+           Manufacturer="$(Manufacturer)"
+           Version="$(Version)"
+           UpgradeCode="$(var.UpgradeCode)"
+           Compressed="true">
+    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
+          <Directory Id="INSTALLFOLDER" Name="$(Name)" />
+        </Directory>
+      </Directory>
+    </Directory>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="AppSettingsComponent">
+        <File Source="$(var.CustomerNameAgentService.TargetDir)publish\appsettings.json" />
+      </Component>
+      <Component Id="ServiceExecutable" Bitness="always64">
+        <File Id="SoftwareAgentService.exe"
+              Source="$(var.CustomerNameAgentService.TargetDir)publish\SoftwareAgentService.exe"
+              KeyPath="true" />
+        <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+        <ServiceInstall Id="ServiceInstaller"
+                        Type="ownProcess"
+                        Name="SoftwareAgentService"
+                        DisplayName="$(Name)"
+                        Description="CustomerName-software agent service"
+                        Start="auto"
+                        ErrorControl="critical"
+                        Vital="no"
+                        Interactive="no"
+                        Account="LocalSystem"/>
+        <ServiceControl Id="StartService"
+                        Start="install"
+                        Stop="both"
+                        Remove="uninstall"
+                        Name="SoftwareAgentService"
+                        Wait="true" />
+      </Component>
+    </DirectoryRef>
+    <Feature Id="Service" Title="CustomerNameAgentService Setup" Level="1" AllowAbsent="yes">
+      <ComponentRef Id="ServiceExecutable" />
+      <ComponentRef Id="AppSettingsComponent" />
+    </Feature>
+  </Package>
+</Wix>

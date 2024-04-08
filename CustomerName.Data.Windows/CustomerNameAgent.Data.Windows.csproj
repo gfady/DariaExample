@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DataSizeUnits" Version="2.1.0" />
+      <PackageReference Include="DnsClient" Version="1.7.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+      <PackageReference Include="System.Management" Version="8.0.0" />
+      <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+      <PackageReference Include="WindowsFirewallHelper" Version="2.2.0.86" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CustomerNameAgent.Data.Common\CustomerNameAgent.Data.Common.csproj" />
+      <ProjectReference Include="..\CustomerNameAgent.Data\CustomerNameAgent.Data.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CustomerNameAgent.Data.Common\CustomerNameAgent.Data.Common.csproj" />
+        <ProjectReference Include="..\CustomerNameAgent.Data\CustomerNameAgent.Data.csproj" />
+        <PackageReference Include="DnsClient" Version="1.7.0" />
+    </ItemGroup>
+
+</Project>

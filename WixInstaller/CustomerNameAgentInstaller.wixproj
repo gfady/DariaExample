@@ -1,0 +1,8 @@
+﻿<Project Sdk="WixToolset.Sdk/4.0.3">
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomerNameAgentService\CustomerNameAgentService.csproj" />
+  </ItemGroup>
+</Project>

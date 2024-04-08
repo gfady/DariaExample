@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-CustomerNameAgentService-64F7213B-FB79-4B01-AFD6-920DD6E2B2FB</UserSecretsId>
+        <OutputType>exe</OutputType>
+        <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PlatformTarget>x64</PlatformTarget>
+        <PublisherName>CustomerName-software</PublisherName>
+        <ApplicationManifest>CustomerNameAgentService.manifest</ApplicationManifest>
+        <AssemblyName>SoftwareAgentService</AssemblyName>
+        <SelfContained>true</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="SoftwareAgentService.service" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="install_script.sh">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="SoftwareAgentService.service">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="NLog" Version="5.2.8" />
+        <PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
+        <PackageReference Include="System.Management" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CustomerNameAgent.Data.Linux\CustomerNameAgent.Data.Linux.csproj" />
+        <ProjectReference Include="..\CustomerNameAgent.Data.Windows\CustomerNameAgent.Data.Windows.csproj" />
+        <ProjectReference Include="..\CustomerNameAgent.Data\CustomerNameAgent.Data.csproj" />
+    </ItemGroup>
+
+  <PropertyGroup>
+    <ArchiveFileName>$(PublishDir)SoftwareAgentService.tar.gz</ArchiveFileName>
+  </PropertyGroup>
+
+  <Target Name="PostPublishActions" AfterTargets="Publish">
+    <Exec Command="tar -czvf $(ArchiveFileName) -C $(PublishDir) SoftwareAgentService appsettings.json SoftwareAgentService.service" />
+  </Target>
+</Project>
